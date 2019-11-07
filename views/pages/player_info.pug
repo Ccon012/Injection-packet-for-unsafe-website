@@ -1,0 +1,81 @@
+//- player-info.pug
+include ../partials/header.pug
+include ../partials/menu.pug
+
+div.container
+  br
+  div.row
+    div.col-4
+      div.card
+        //- TODO: Modify the pug code below to conditionally set the image_src
+        if (player)
+            - let image_src = player.img_src
+              img.card-img-top#player_img(src= image_src, alt="Football Player")
+            break
+        div.card-body.mx-auto
+          form.form(action="/player_info/select_player", method="get")
+            select.custom-select(name="player_choice", onchange="this.form.submit()")
+              option(selected) Select Player
+              if (data)
+                  for item in data
+                     option(value=item.id) #{item.name}
+              if (player)
+                  option(selected) #{player.name}
+          //- TODO: Populate the select with player options. Set the value to the player's id and display the player's name.
+    div.col-8
+      div.table-responsive
+        table.table
+          //- TODO: Set the player's information. On select, fill in the player's information in each of the field below. You will need to calculate the average rushing, receiving, and passing yards.
+          tr
+            th Year
+            if (player)
+              td #{player.year}
+            else
+               td
+          tr
+            th Major
+            if (player)
+              td #{player.major}
+            else
+              td
+          tr
+            th Games Played
+            if (games)
+              td #{games.count}
+            else
+              td
+          tr
+            td Passing Yards:
+            if (player)
+              td #{player.passing_yards}
+            else
+              td
+            td Avg. Passing Yards:
+            if (player && games)
+              td #{player.passing_yards/games.count}
+            else
+              td
+          tr
+            td Rushing Yards:
+            if (player)
+              td #{player.rushing_yards}
+            else
+              td
+            td Avg. Rushing Yards:
+            if (player && games)
+              td #{player.rushing_yards/games.count}
+            else
+              td
+          tr
+            td Receiving Yards:
+              if (player)
+                td #{player.receiving_yards}
+              else
+                td
+            td Avg. Receiving Yards:
+              if (player && games)
+                td #{player.receiving_yards/games.count}
+              else
+                td
+
+include ../partials/footer.pug
